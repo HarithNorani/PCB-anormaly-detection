@@ -1,114 +1,38 @@
-# PCB Visual Inspection with Visual AI
+# PCB Visual Inspection
 
-An end-to-end research prototype for automated PCB defect inspection. The
-project combines a classical template-difference baseline with a six-class
-YOLO detector, evaluation tooling, threshold tuning, robustness experiments,
-and visual failure analysis.
+This project develops a reproducible, template-based visual inspection pipeline
+for PCB manufacturing defects. It is intended as a portfolio project aligned
+with industrial optical inspection and Visual AI work.
 
-It is designed as a portfolio project for industrial computer vision and
-optical quality inspection roles.
+## First milestone
 
-> **Scope:** DeepPCB contains defects in PCB traces and copper patterns. It is
-> not a complete dataset for populated-component inspection, solder defects, or
-> component-placement verification.
+The initial implementation provides:
 
-## What the system does
+- A typed representation of DeepPCB samples and bounding-box annotations.
+- Strict parsing and validation for the repository's
+  `x1,y1,x2,y2,type` annotation format and the whitespace-separated format
+  used by the downloaded repository.
+- Dataset discovery that pairs `_test.jpg`, `_temp.jpg`, and `.txt` files.
+- A command-line summary for checking a local dataset before training.
+- A class-agnostic template-difference baseline with connected-component
+  extraction and IoU-based precision, recall, and F1 evaluation.
+- Small-translation registration and global brightness/contrast normalization
+  options for reducing camera and fixture variation.
+- Annotated image and JSON inspection reports for demonstrating results.
+- YOLO-format export for the six-class detector training milestone.
 
-```text
-Defect-free template + tested PCB image
-                  |
-                  v
-       Dataset validation and preparation
-                  |
-          +-------+--------+
-          |                |
-          v                v
- Classical reference   Six-class YOLO detector
- template difference   open / short / mousebite /
-          |             spur / copper / pin-hole
-          +-------+--------+
-                  |
-                  v
- Evaluation, threshold tuning, robustness tests
-                  |
-                  v
- Annotated reports, failure cases, comparison evidence
-```
+DeepPCB contains paired defect-free template and tested images with six defect
+classes: `open`, `short`, `mousebite`, `spur`, `copper`, and `pin-hole`.
+The dataset is available from
+<https://github.com/tangsanli5201/DeepPCB> and is intended for research use.
 
-The same workflow is available as a graphic in
-[docs/workflow.svg](docs/workflow.svg).
+### Workflow
 
-## Results achieved
+![PCB visual inspection workflow](docs/workflow.svg)
 
-The trained detector was evaluated on the project-generated 300-image
-validation holdout:
+## Setup
 
-| Metric | Result |
-|---|---:|
-| Precision | **92.17%** |
-| Recall | **89.82%** |
-| mAP@0.50 | **95.62%** |
-| mAP@0.50:0.95 | **74.97%** |
-
-Per-class analysis identified two useful engineering findings:
-
-- `short` has the weakest recall and needs targeted analysis.
-- `pin-hole` has high recall but initially produced many false positives;
-  class-specific threshold tuning improved its precision from 61.6% to 90.8%
-  on the analyzed validation predictions.
-
-These are validation results, not a production acceptance claim. DeepPCB
-contains artificial defects and does not represent all camera, board, fixture,
-or lighting conditions on a manufacturing line.
-
-## Example detection
-
-The image below is an Ultralytics validation montage produced by the trained
-detector. Each colored box identifies a predicted defect class and its
-confidence score:
-
-![Example PCB defect detections](runs/detect/evaluation-results/validation/val_batch0_pred.jpg)
-
-The detector identifies examples of `open`, `short`, `spur`, `copper`,
-`mousebite`, and `pin-hole` defects across the validation batch. The montage
-contains multiple images so it is useful for a quick qualitative check; the
-per-image failure-case exports are better for investigating individual false
-positives and missed defects.
-
-For an annotated failure example, see
-[77000001_test_failure.png](failure-cases/77000001_test_failure.png). In that
-image, red boxes are false positives and orange boxes are false negatives.
-
-## Project layout
-
-```text
-pcb_inspection/
-├── dataset.py          # DeepPCB discovery and annotation parsing
-├── baseline.py         # Template difference, registration, metrics
-├── training_data.py    # DeepPCB -> YOLO export
-├── training.py         # Optional Ultralytics training
-├── evaluation.py       # Checkpoint validation and metrics.json
-├── error_analysis.py   # Per-class metrics, tuning, failure images
-├── robustness.py       # Controlled classical-baseline perturbations
-├── comparison.py       # Consolidated benchmark report
-└── cli.py              # All command-line workflows
-tests/                  # 26 focused tests
-```
-
-## Requirements
-
-- Python 3.9 or newer
-- macOS, Linux, or Windows
-- NumPy and Pillow for the core pipeline
-- Optional: Ultralytics/PyTorch for detector training and evaluation
-
-The DeepPCB dataset is available from
-[tangsanli5201/DeepPCB](https://github.com/tangsanli5201/DeepPCB) and is
-restricted to research use by its repository notice.
-
-## Installation
-
-From the project directory:
+From this directory:
 
 ```bash
 python3 -m venv .venv
@@ -118,20 +42,14 @@ python -m pip install --upgrade pip setuptools
 python -m pip install -e '.[dev]'
 ```
 
-The pip upgrade matters on older macOS Command Line Tools Python
-installations. Older pip versions cannot reliably install this modern
-`pyproject.toml` project in editable mode.
+The pip upgrade is important on older macOS Command Line Tools Python
+installations: pip versions before editable PEP 660 support cannot install a
+`pyproject.toml` project with `-e`.
 
-Install the optional AI backend when you are ready to train or evaluate:
+Install the optional training backend only when you are ready to train:
 
 ```bash
 python -m pip install -e '.[ai]'
-```
-
-If your shell has no `python` command, use the environment explicitly:
-
-```bash
-./.venv/bin/python -m pcb_inspection.cli --help
 ```
 
 Run the tests:
@@ -140,100 +58,75 @@ Run the tests:
 python -m pytest
 ```
 
-## 1. Download and validate DeepPCB
+## Inspect a downloaded dataset
 
-Clone the dataset outside the project output directories:
-
-```bash
-git clone https://github.com/tangsanli5201/DeepPCB.git
-```
-
-Validate the downloaded repository:
+After downloading and extracting DeepPCB, run:
 
 ```bash
-pcb-inspect summary ./DeepPCB
+pcb-inspect summary /path/to/DeepPCB
 ```
 
-Expected result for the downloaded repository:
+The command does not load image pixels. It checks file pairing and annotation
+structure so dataset problems are found before a model is trained.
+It supports both annotations next to the images and the DeepPCB repository
+layout, where annotations are stored in sibling directories ending in
+`_not`. When the repository root is supplied, utility example images under
+`tools/` are excluded automatically by scanning `PCBData/`.
 
-```text
-complete samples: 1500
-issues: 0
-annotations: 10013
-```
-
-The loader supports the repository's actual layout:
-
-```text
-DeepPCB/PCBData/groupXXXXX/XXXXX/*_test.jpg
-DeepPCB/PCBData/groupXXXXX/XXXXX/*_temp.jpg
-DeepPCB/PCBData/groupXXXXX/XXXXX_not/*.txt
-```
-
-It also supports annotations beside the image and both comma-separated and
-whitespace-separated annotation records.
-
-## 2. Run the classical reference baseline
-
-The baseline compares a tested image with its defect-free template, optionally
-registers small translations, normalizes illumination, thresholds the
-difference, and extracts connected components.
+## Run the classical baseline
 
 ```bash
-pcb-inspect baseline ./DeepPCB \
+pcb-inspect baseline /path/to/DeepPCB --threshold 30 --min-area 4
+```
+
+The baseline compares each grayscale test image with its template, thresholds
+the absolute difference, groups changed pixels into connected components, and
+matches candidate boxes to annotations at IoU 0.33. It is deliberately
+class-agnostic: it measures localization quality and provides a reference
+against which a later six-class model can be compared.
+
+Use `--limit 10` for a quick smoke test on the first ten samples.
+
+For images with small fixture or camera shifts, enable registration and
+illumination normalization:
+
+```bash
+pcb-inspect baseline /path/to/DeepPCB --register --normalize --max-shift 5
+```
+
+## Create inspection reports
+
+Generate an annotated PNG and a JSON report for each sample:
+
+```bash
+pcb-inspect report /path/to/DeepPCB ./reports \
+  --limit 10 \
   --register \
-  --normalize \
-  --max-shift 5 \
-  --threshold 30 \
-  --min-area 4 \
-  --limit 10
+  --normalize
 ```
 
-This is deliberately class-agnostic. It is a reference for measuring why
-learned visual features are needed; it is not the primary detector.
+The JSON report records the preprocessing configuration, detected boxes,
+localization metrics, and a `passed` decision. The current decision is strict:
+it passes only when every annotation is matched and no extra region is found.
 
-Generate annotated PNG and JSON reports:
+## Prepare six-class detector data
+
+Export the tested images and zero-based YOLO labels:
 
 ```bash
-pcb-inspect report ./DeepPCB ./reports \
-  --register \
-  --normalize \
-  --limit 10
+pcb-inspect prepare /path/to/DeepPCB ./prepared-data
 ```
 
-## 3. Prepare YOLO training data
+The command creates `images/train`, `images/val`, `labels/train`,
+`labels/val`, and `dataset.yaml`. It uses the tested image as the detector
+input and keeps the template image separate for the classical reference
+pipeline. Samples are sorted deterministically and split by the
+`--validation-ratio` (20% by default). Keep the official DeepPCB evaluation
+set separate when making final benchmark claims.
 
-Export tested images and zero-based YOLO labels:
+## Train the six-class detector
 
-```bash
-pcb-inspect prepare ./DeepPCB ./prepared-data
-```
-
-This creates:
-
-```text
-prepared-data/
-├── dataset.yaml
-├── images/train/       # 1,200 images by default
-├── images/val/         # 300 images by default
-├── labels/train/
-└── labels/val/
-```
-
-Labels use the image stem, for example:
-
-```text
-images/train/44000022_test.jpg
-labels/train/44000022_test.txt
-```
-
-This matching is required by Ultralytics. The split is deterministic and uses
-20% validation by default. Keep the official DeepPCB evaluation set separate
-when making benchmark claims.
-
-## 4. Train the detector
-
-Install the optional backend, then run:
+After preparing the data and installing the optional AI dependency:
 
 ```bash
 pcb-inspect train ./prepared-data/dataset.yaml ./runs \
@@ -243,19 +136,13 @@ pcb-inspect train ./prepared-data/dataset.yaml ./runs \
   --batch-size 16
 ```
 
-The command validates the prepared dataset before starting. It uses seed `42`
-by default and writes the best checkpoint under the Ultralytics run directory.
-On a CPU-only laptop, training can take a while; a one-epoch smoke test is
-useful first:
+Training fails explicitly if the prepared dataset is incomplete or the optional
+Ultralytics dependency is not installed. The default run is reproducible with
+seed `42`; change it deliberately when comparing experiments.
 
-```bash
-pcb-inspect train ./prepared-data/dataset.yaml ./runs-smoke \
-  --epochs 1 \
-  --image-size 320 \
-  --batch-size 4
-```
+## Evaluate a trained detector
 
-## 5. Evaluate a trained checkpoint
+After training finishes, evaluate the best checkpoint on the validation split:
 
 ```bash
 pcb-inspect evaluate \
@@ -264,27 +151,14 @@ pcb-inspect evaluate \
   ./evaluation-results
 ```
 
-Important outputs:
+This writes `metrics.json` and Ultralytics validation plots under the output
+directory. The report includes the checkpoint, dataset, image size, batch size,
+and metric values such as precision, recall, mAP@0.5, and mAP@0.5:0.95.
 
-```text
-evaluation-results/metrics.json
-runs/detect/evaluation-results/validation/
-├── predictions.json
-├── confusion_matrix.png
-├── confusion_matrix_normalized.png
-├── BoxPR_curve.png
-└── BoxF1_curve.png
-```
+## Analyze detector errors
 
-Example generated visuals:
-
-- [Confusion matrix](runs/detect/evaluation-results/validation/confusion_matrix.png)
-- [Precision-recall curve](runs/detect/evaluation-results/validation/BoxPR_curve.png)
-- [F1 curve](runs/detect/evaluation-results/validation/BoxF1_curve.png)
-
-## 6. Analyze and tune errors
-
-Generate per-class precision, recall, F1, and a confusion matrix:
+Use the saved COCO-format predictions to produce per-class metrics and a
+confusion matrix:
 
 ```bash
 pcb-inspect analyze \
@@ -293,7 +167,14 @@ pcb-inspect analyze \
   ./error-analysis
 ```
 
-Tune confidence thresholds independently:
+The command writes `error-analysis.json` and `per-class-metrics.csv`. Matching
+uses one-to-one box assignment at IoU 0.5 and a confidence threshold of 0.25
+by default. Adjust both thresholds explicitly when studying production
+trade-offs, especially for `short` recall and `pin-hole` precision.
+
+## Tune confidence thresholds
+
+Sweep confidence thresholds independently for each class:
 
 ```bash
 pcb-inspect tune \
@@ -302,7 +183,15 @@ pcb-inspect tune \
   ./threshold-tuning
 ```
 
-Export annotated false positives, false negatives, and class mismatches:
+The command writes `threshold-tuning.json` and `threshold-tuning.csv`, and
+prints the threshold with the best F1 for each class. For production, choose a
+threshold deliberately: a lower threshold favors recall and catches more
+defects, while a higher threshold favors precision and reduces false rejects.
+
+## Export failure-case images
+
+Create annotated images for false positives, false negatives, and class
+mismatches:
 
 ```bash
 pcb-inspect failures \
@@ -313,31 +202,15 @@ pcb-inspect failures \
   --limit 50
 ```
 
-Color coding:
+The output directory contains annotated PNG files and `failure-cases.json`.
+False positives are red, false negatives are orange, and class mismatches are
+purple. Use the generated images to investigate the `short` and `pin-hole`
+failure patterns before changing the model or dataset.
 
-- **Red:** false positive
-- **Orange:** false negative
-- **Purple:** class mismatch
+## Create the consolidated comparison
 
-Example generated failure image:
-
-[Open a failure-case example](failure-cases/77000001_test_failure.png)
-
-## 7. Test robustness and compare approaches
-
-Run controlled perturbations against the classical baseline:
-
-```bash
-pcb-inspect robustness ./DeepPCB ./robustness.json \
-  --limit 25 \
-  --mitigate
-```
-
-The benchmark covers brightness, contrast, Gaussian noise, and small
-translation. It is a controlled engineering experiment, not a substitute for
-real production camera data.
-
-Create the consolidated project report:
+Combine the trained-detector evaluation with the classical-baseline robustness
+benchmark:
 
 ```bash
 pcb-inspect compare \
@@ -347,36 +220,28 @@ pcb-inspect compare \
   --checkpoint ./runs/detect/runs/pcb-defect-detector-2/weights/best.pt
 ```
 
-The resulting [comparison.json](comparison.json) keeps detector metrics,
-classical-baseline robustness results, provenance, and deployment caveats in
-one artifact.
+The JSON report keeps the validation metrics and controlled robustness results
+together, while explicitly distinguishing the trained detector from the
+classical reference baseline. It is suitable as the results artifact for a
+project presentation or portfolio.
 
-## Reproducibility checklist
+## Run robustness benchmarks
 
-Before presenting results:
+Evaluate the classical baseline under controlled image variation:
 
-1. Record the checkpoint path and training arguments.
-2. Keep the validation split separate from threshold tuning data where
-   possible.
-3. Report per-class metrics, not only aggregate mAP.
-4. Show false positives and false negatives.
-5. Measure inference speed on the target hardware.
-6. State that DeepPCB is research data with artificial defects.
-7. Do not claim production readiness without representative camera and line
-   data.
+```bash
+pcb-inspect robustness ./DeepPCB ./robustness.json \
+  --limit 25 \
+  --mitigate
+```
 
-## Why this fits industrial Visual AI work
+The benchmark covers brightness, contrast, Gaussian noise, and a small
+translation. With `--mitigate`, illumination normalization and registration
+are applied where appropriate. This is a controlled engineering experiment,
+not a substitute for production camera data.
 
-The project demonstrates the complete inspection loop:
+## Planned milestones
 
-- Camera-like paired image inputs
-- Image registration and illumination handling
-- Classical computer-vision baseline
-- AI-based defect localization and classification
-- Production-oriented precision/recall trade-offs
-- Per-class threshold tuning
-- Visual failure analysis
-- Reproducible reports and documentation
-
-That is substantially stronger than presenting a detector trained on a dataset
-with only one mAP number.
+1. Compare the six-class detector with the classical baseline.
+2. Add robustness tests for illumination changes and misalignment.
+3. Add template-aware detector input and production-style error analysis.
