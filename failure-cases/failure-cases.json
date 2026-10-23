@@ -1,0 +1,406 @@
+{
+  "iou_threshold": 0.5,
+  "confidence_threshold": 0.25,
+  "cases": [
+    {
+      "image_id": "77000001_test",
+      "image": "prepared-data/images/val/77000001_test.jpg",
+      "output": "failure-cases/77000001_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 3,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000002_test",
+      "image": "prepared-data/images/val/77000002_test.jpg",
+      "output": "failure-cases/77000002_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 0,
+      "class_mismatches": 1
+    },
+    {
+      "image_id": "77000003_test",
+      "image": "prepared-data/images/val/77000003_test.jpg",
+      "output": "failure-cases/77000003_test_failure.png",
+      "false_positives": 0,
+      "false_negatives": 1,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000006_test",
+      "image": "prepared-data/images/val/77000006_test.jpg",
+      "output": "failure-cases/77000006_test_failure.png",
+      "false_positives": 2,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000007_test",
+      "image": "prepared-data/images/val/77000007_test.jpg",
+      "output": "failure-cases/77000007_test_failure.png",
+      "false_positives": 2,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000008_test",
+      "image": "prepared-data/images/val/77000008_test.jpg",
+      "output": "failure-cases/77000008_test_failure.png",
+      "false_positives": 2,
+      "false_negatives": 1,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000011_test",
+      "image": "prepared-data/images/val/77000011_test.jpg",
+      "output": "failure-cases/77000011_test_failure.png",
+      "false_positives": 6,
+      "false_negatives": 0,
+      "class_mismatches": 1
+    },
+    {
+      "image_id": "77000012_test",
+      "image": "prepared-data/images/val/77000012_test.jpg",
+      "output": "failure-cases/77000012_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 2,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000015_test",
+      "image": "prepared-data/images/val/77000015_test.jpg",
+      "output": "failure-cases/77000015_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000016_test",
+      "image": "prepared-data/images/val/77000016_test.jpg",
+      "output": "failure-cases/77000016_test_failure.png",
+      "false_positives": 0,
+      "false_negatives": 1,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000017_test",
+      "image": "prepared-data/images/val/77000017_test.jpg",
+      "output": "failure-cases/77000017_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000018_test",
+      "image": "prepared-data/images/val/77000018_test.jpg",
+      "output": "failure-cases/77000018_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000019_test",
+      "image": "prepared-data/images/val/77000019_test.jpg",
+      "output": "failure-cases/77000019_test_failure.png",
+      "false_positives": 2,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000020_test",
+      "image": "prepared-data/images/val/77000020_test.jpg",
+      "output": "failure-cases/77000020_test_failure.png",
+      "false_positives": 0,
+      "false_negatives": 1,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000022_test",
+      "image": "prepared-data/images/val/77000022_test.jpg",
+      "output": "failure-cases/77000022_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000024_test",
+      "image": "prepared-data/images/val/77000024_test.jpg",
+      "output": "failure-cases/77000024_test_failure.png",
+      "false_positives": 0,
+      "false_negatives": 1,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000025_test",
+      "image": "prepared-data/images/val/77000025_test.jpg",
+      "output": "failure-cases/77000025_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000026_test",
+      "image": "prepared-data/images/val/77000026_test.jpg",
+      "output": "failure-cases/77000026_test_failure.png",
+      "false_positives": 0,
+      "false_negatives": 1,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000027_test",
+      "image": "prepared-data/images/val/77000027_test.jpg",
+      "output": "failure-cases/77000027_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 1,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000028_test",
+      "image": "prepared-data/images/val/77000028_test.jpg",
+      "output": "failure-cases/77000028_test_failure.png",
+      "false_positives": 2,
+      "false_negatives": 1,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000030_test",
+      "image": "prepared-data/images/val/77000030_test.jpg",
+      "output": "failure-cases/77000030_test_failure.png",
+      "false_positives": 0,
+      "false_negatives": 1,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000033_test",
+      "image": "prepared-data/images/val/77000033_test.jpg",
+      "output": "failure-cases/77000033_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 1,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000035_test",
+      "image": "prepared-data/images/val/77000035_test.jpg",
+      "output": "failure-cases/77000035_test_failure.png",
+      "false_positives": 0,
+      "false_negatives": 1,
+      "class_mismatches": 1
+    },
+    {
+      "image_id": "77000038_test",
+      "image": "prepared-data/images/val/77000038_test.jpg",
+      "output": "failure-cases/77000038_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 2,
+      "class_mismatches": 1
+    },
+    {
+      "image_id": "77000040_test",
+      "image": "prepared-data/images/val/77000040_test.jpg",
+      "output": "failure-cases/77000040_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 1,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000043_test",
+      "image": "prepared-data/images/val/77000043_test.jpg",
+      "output": "failure-cases/77000043_test_failure.png",
+      "false_positives": 0,
+      "false_negatives": 1,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000044_test",
+      "image": "prepared-data/images/val/77000044_test.jpg",
+      "output": "failure-cases/77000044_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000045_test",
+      "image": "prepared-data/images/val/77000045_test.jpg",
+      "output": "failure-cases/77000045_test_failure.png",
+      "false_positives": 0,
+      "false_negatives": 1,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000046_test",
+      "image": "prepared-data/images/val/77000046_test.jpg",
+      "output": "failure-cases/77000046_test_failure.png",
+      "false_positives": 0,
+      "false_negatives": 1,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000048_test",
+      "image": "prepared-data/images/val/77000048_test.jpg",
+      "output": "failure-cases/77000048_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000051_test",
+      "image": "prepared-data/images/val/77000051_test.jpg",
+      "output": "failure-cases/77000051_test_failure.png",
+      "false_positives": 0,
+      "false_negatives": 2,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000052_test",
+      "image": "prepared-data/images/val/77000052_test.jpg",
+      "output": "failure-cases/77000052_test_failure.png",
+      "false_positives": 0,
+      "false_negatives": 1,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000055_test",
+      "image": "prepared-data/images/val/77000055_test.jpg",
+      "output": "failure-cases/77000055_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000056_test",
+      "image": "prepared-data/images/val/77000056_test.jpg",
+      "output": "failure-cases/77000056_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000057_test",
+      "image": "prepared-data/images/val/77000057_test.jpg",
+      "output": "failure-cases/77000057_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000058_test",
+      "image": "prepared-data/images/val/77000058_test.jpg",
+      "output": "failure-cases/77000058_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000060_test",
+      "image": "prepared-data/images/val/77000060_test.jpg",
+      "output": "failure-cases/77000060_test_failure.png",
+      "false_positives": 3,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000061_test",
+      "image": "prepared-data/images/val/77000061_test.jpg",
+      "output": "failure-cases/77000061_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000063_test",
+      "image": "prepared-data/images/val/77000063_test.jpg",
+      "output": "failure-cases/77000063_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000064_test",
+      "image": "prepared-data/images/val/77000064_test.jpg",
+      "output": "failure-cases/77000064_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000065_test",
+      "image": "prepared-data/images/val/77000065_test.jpg",
+      "output": "failure-cases/77000065_test_failure.png",
+      "false_positives": 4,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000068_test",
+      "image": "prepared-data/images/val/77000068_test.jpg",
+      "output": "failure-cases/77000068_test_failure.png",
+      "false_positives": 2,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000070_test",
+      "image": "prepared-data/images/val/77000070_test.jpg",
+      "output": "failure-cases/77000070_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 1,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000071_test",
+      "image": "prepared-data/images/val/77000071_test.jpg",
+      "output": "failure-cases/77000071_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000073_test",
+      "image": "prepared-data/images/val/77000073_test.jpg",
+      "output": "failure-cases/77000073_test_failure.png",
+      "false_positives": 2,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000076_test",
+      "image": "prepared-data/images/val/77000076_test.jpg",
+      "output": "failure-cases/77000076_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000078_test",
+      "image": "prepared-data/images/val/77000078_test.jpg",
+      "output": "failure-cases/77000078_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000079_test",
+      "image": "prepared-data/images/val/77000079_test.jpg",
+      "output": "failure-cases/77000079_test_failure.png",
+      "false_positives": 2,
+      "false_negatives": 0,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000080_test",
+      "image": "prepared-data/images/val/77000080_test.jpg",
+      "output": "failure-cases/77000080_test_failure.png",
+      "false_positives": 1,
+      "false_negatives": 1,
+      "class_mismatches": 0
+    },
+    {
+      "image_id": "77000081_test",
+      "image": "prepared-data/images/val/77000081_test.jpg",
+      "output": "failure-cases/77000081_test_failure.png",
+      "false_positives": 3,
+      "false_negatives": 3,
+      "class_mismatches": 0
+    }
+  ]
+}

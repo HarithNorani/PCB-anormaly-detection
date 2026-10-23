@@ -1,0 +1,2 @@
+[console_scripts]
+pcb-inspect = pcb_inspection.cli:main

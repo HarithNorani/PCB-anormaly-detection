@@ -1,0 +1,63 @@
+{
+  "detector": {
+    "checkpoint": "/Users/test/Documents/GitHub/PCB abnormaly detection/runs/detect/runs/pcb-defect-detector-2/weights/best.pt",
+    "dataset": "/Users/test/Documents/GitHub/PCB abnormaly detection/prepared-data/dataset.yaml",
+    "precision": 0.9217375388430096,
+    "recall": 0.8981874498109413,
+    "map50": 0.9561573164125187,
+    "map50_95": 0.7496628651761822
+  },
+  "classical_baseline": {
+    "samples": 25,
+    "threshold": 30,
+    "min_area": 4,
+    "mitigate": true,
+    "conditions": {
+      "baseline": {
+        "true_positives": 21,
+        "false_positives": 3918,
+        "false_negatives": 159,
+        "precision": 0.005331302361005331,
+        "recall": 0.11666666666666667,
+        "f1": 0.010196649672250545
+      },
+      "brightness": {
+        "true_positives": 21,
+        "false_positives": 3919,
+        "false_negatives": 159,
+        "precision": 0.00532994923857868,
+        "recall": 0.11666666666666667,
+        "f1": 0.010194174757281552
+      },
+      "contrast": {
+        "true_positives": 20,
+        "false_positives": 3910,
+        "false_negatives": 160,
+        "precision": 0.005089058524173028,
+        "recall": 0.1111111111111111,
+        "f1": 0.009732360097323601
+      },
+      "noise": {
+        "true_positives": 22,
+        "false_positives": 4009,
+        "false_negatives": 158,
+        "precision": 0.005457702803274621,
+        "recall": 0.12222222222222222,
+        "f1": 0.010448824507242936
+      },
+      "shift": {
+        "true_positives": 20,
+        "false_positives": 3941,
+        "false_negatives": 160,
+        "precision": 0.005049229992426155,
+        "recall": 0.1111111111111111,
+        "f1": 0.009659502535619416
+      }
+    }
+  },
+  "interpretation": {
+    "detector_role": "Primary six-class defect detector",
+    "baseline_role": "Reference for template-difference sensitivity",
+    "deployment_caveat": "Validation and controlled perturbation results do not replace a production-line acceptance study."
+  }
+}
