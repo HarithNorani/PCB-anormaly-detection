@@ -30,6 +30,26 @@ The dataset is available from
 
 ![PCB visual inspection workflow](docs/workflow.svg)
 
+## Example: defective PCB detection
+
+The following is a real annotated output from the detector on a validation
+image. The model identifies a predicted `open` defect in red and marks
+unmatched ground-truth defects in orange. This example is intentionally shown
+with its missed detections: inspection systems should report both successful
+detections and failure cases rather than only displaying favorable results.
+
+![Annotated defective PCB detection](failure-cases/77000001_test_failure.png)
+
+Color legend:
+
+- **Red**: false-positive prediction.
+- **Orange**: false-negative ground-truth defect.
+- **Purple**: class mismatch between prediction and annotation.
+
+The complete set of generated failure-case images is available in
+[`failure-cases/`](failure-cases/), with the machine-readable index in
+[`failure-cases.json`](failure-cases/failure-cases.json).
+
 ## Setup
 
 From this directory:
@@ -154,6 +174,27 @@ pcb-inspect evaluate \
 This writes `metrics.json` and Ultralytics validation plots under the output
 directory. The report includes the checkpoint, dataset, image size, batch size,
 and metric values such as precision, recall, mAP@0.5, and mAP@0.5:0.95.
+
+## Metrics comparison
+
+The learned six-class detector substantially outperforms the class-agnostic
+template-difference baseline on this experiment:
+
+| Method | Evaluation scope | Precision | Recall | F1 | mAP@0.5 | mAP@0.5:0.95 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| YOLO11n detector | 300 validation images, 1,696 annotated defects | **92.17%** | **89.82%** | — | **95.62%** | **74.97%** |
+| Classical baseline | 25 robustness samples, unmodified condition | 0.53% | 11.67% | 1.02% | — | — |
+
+The detector metrics are from
+[`evaluation-results/metrics.json`](evaluation-results/metrics.json). The
+classical baseline metrics are from
+[`comparison.json`](comparison.json) and use IoU-based defect matching rather
+than object-detection mAP. Because the sample counts and evaluation protocols
+are different, this is an engineering comparison of the two approaches, not a
+single controlled leaderboard benchmark. The baseline's very low precision
+shows why naive pixel differencing is not sufficient for a production
+inspection decision: small registration or appearance changes generate many
+false alarms.
 
 ## Analyze detector errors
 
